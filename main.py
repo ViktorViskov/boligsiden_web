@@ -60,7 +60,8 @@ dict_sell_period = {
 # catch all requests
 def catch_all(path):
     # preparing data
-    template = open("./src/index.html", "r").read()
+    template_root = open("./src/index.html", "r").read()
+    template_item = open("./src/item.html", "r").read()
 
     # variables for search in database
     price = Int_From_Dict(Str_From_Dict("price" ,request.args), dict_prices)
@@ -80,14 +81,24 @@ def catch_all(path):
     # load data from db
     db_response = db.Read(sql_request)
 
-    content = str(db_response)
-    # content = str(sql_request)
+    # create content
+    content = ""
+
+    # main loop
+    for record in db_response:
+        # variables
+        item = template_item
+
+        # loop for parameters
+        for number in range(len(record)):
+            item = item.replace("!!%d!!" % (number), str(record[number]))
+        
+        # add to contant
+        content += item
 
     # create page
-    template = template.replace("!!CONTENT!!", str(content))
+    template = template_root.replace("!!CONTENT!!", str(content))
     return template
-
-
 
 # start app
 if __name__ == '__main__':
