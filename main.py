@@ -2,10 +2,12 @@
 from core.libs import *
 from flask import Flask, request
 from core.mysql import Mysql_Connect
+import configs
+
 app = Flask(__name__)
 
 # modules
-db = Mysql_Connect("127.0.0.1", "root", "dbnmjr031193", "boligsiden")
+db = Mysql_Connect(configs.host, configs.login, configs.pasword, configs.db_name)
 
 # variables
 address = "0.0.0.0"
