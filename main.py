@@ -7,7 +7,7 @@ import configs
 app = Flask(__name__)
 
 # modules
-db = Mysql_Connect(configs.host, configs.login, configs.pasword, configs.db_name)
+db = Mysql_Connect(configs.host, configs.login, configs.password, configs.db_name)
 
 # variables
 address = "0.0.0.0"
