@@ -14,25 +14,24 @@ class Mysql_Connect:
         self.host = host
         self.user = user
         self.password = password
-        self.db = db
+        self.db = db     
 
-        # Create connection 
-        try:
-            self.Connect()
-        except:
-            print("DB connection error")
-
-    # create connection
-    def Connect(self):
-        # connection
-        self.connection = mysql.connector.connect(host = self.host, user = self.user, passwd = self.password, database = self.db)
-
-        # io buffer cursor
-        self.cursor = self.connection.cursor()
-    
     # Read
     def Read(self, sql_command):
+        # connection
+        connection = mysql.connector.connect(host = self.host, user = self.user, passwd = self.password, database = self.db)
 
-        self.cursor.execute(sql_command)
+        # io buffer cursor
+        cursor = connection.cursor()
 
-        return self.cursor.fetchall()
+        # exec sql command
+        cursor.execute(sql_command)
+
+        # load data
+        data = cursor.fetchall()
+
+        # close connection
+        connection.close()
+
+        # return data
+        return data
